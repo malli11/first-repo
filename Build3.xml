@@ -1,0 +1,42 @@
+<project name="IMS" default="site">
+	<target name="clean">
+		<echo> First execute the clean</echo>
+		<delete dir="temper"/>
+	</target> 
+	<target name="compile" depends="clean">
+		<mkdir dir="temper/ims_classes"/>
+		<mkdir dir="temper/ims_jar"/>
+		<mkdir dir="temper/ims_war"/>
+		<mkdir dir="temper/ims_ear"/>
+		<javac  destdir="temper/ims_classes" includeantruntime="false" debug="true">
+	
+			<src path="F:\src\com\webserver\webcont\beans"/>
+			<src path="F:\src\com\webserver\webcont\ramss"/>
+			<src path="F:\src\com\webserver\webcont\reserv"/>
+			<src path="F:\src\com\webserver\webcont\secaa"/>
+			
+		</javac>
+		<echo>compiling the all classes </echo>
+	</target>
+	<target name="test" depends="compile">
+		<echo> test target code entered here </echo>
+	</target>
+	<target name="package" depends="test">
+		<jar destfile="temper/ims_jar/ims.jar" basedir="temper/ims_classes"/>
+		<war destfile="temper/ims_war/ims.war" webxml=" ">
+			<fileset dir="temper/ims_jar">
+				<include name="**/*.jar"/>
+				<exclude name="**/*.zip"/>
+			</fileset>
+		</war>
+		<ear destfile="temper/ims_ear/ims.ear" appxml=" ">
+			<fileset dir="temper/ims_war">
+				<include name="**/*.war"/>
+				<exclude name="**/*.zip"/>
+			</fileset>
+		</ear>
+	</target>
+	<target name="site" depends="package">
+		<echo>Enter the site message</echo>
+	</target>
+</project>
